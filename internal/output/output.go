@@ -19,9 +19,7 @@ type TableFormatter struct{}
 
 func (f *TableFormatter) Format(results []models.Result) error {
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"Subdomain", "Provider", "Confidence", "Takeover"})
-	table.SetBorder(false)
-	table.SetAutoWrapText(false)
+	table.Header([]string{"Subdomain", "Provider", "Confidence", "Takeover"})
 
 	for _, r := range results {
 		takeover := "No"

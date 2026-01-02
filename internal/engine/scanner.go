@@ -41,6 +41,11 @@ func (s *Scanner) Scan(subdomains []string) <-chan models.Result {
 				defer wg.Done()
 				defer func() { <-sem }() // Release token
 
+				if s.DNSResolver.IsWildcard(subdomain) {
+					// Suppression of wildcard domains to avoid noise
+					return
+				}
+
 				result, err := s.DNSResolver.Resolve(subdomain)
 				if err != nil {
 					// Log error or handle it

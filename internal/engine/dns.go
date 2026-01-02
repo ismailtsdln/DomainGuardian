@@ -61,7 +61,16 @@ func (d *DNSResolver) Resolve(subdomain string) (*models.Result, error) {
 
 // IsWildcard checks if a subdomain is part of a wildcard DNS entry
 func (d *DNSResolver) IsWildcard(subdomain string) bool {
-	// Simple wildcard detection: check if a non-existent random subdomain resolves
-	// This is a basic implementation; more robust checks would involve comparing records
-	return false
+	ctx, cancel := context.WithTimeout(context.Background(), d.Timeout)
+	defer cancel()
+
+	parts := strings.Split(subdomain, ".")
+	if len(parts) < 3 {
+		return false
+	}
+	parent := strings.Join(parts[1:], ".")
+
+	randomSub := "dg-" + time.Now().Format("02150405") + "." + parent
+	_, err := d.Resolver.LookupHost(ctx, randomSub)
+	return err == nil
 }
