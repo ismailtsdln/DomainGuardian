@@ -1,0 +1,29 @@
+- service: AWS S3
+  cname_patterns: ["s3.amazonaws.com", "s3-website"]
+  http_status: 404
+  body_contains: ["NoSuchBucket", "The specified bucket does not exist"]
+  takeover_possible: true
+
+- service: GitHub Pages
+  cname_patterns: ["github.io"]
+  http_status: 404
+  body_contains: ["There isn't a GitHub Pages site here", "404 Not Found"]
+  takeover_possible: true
+
+- service: Heroku
+  cname_patterns: ["herokudns.com", "herokussl.com", "herokuapp.com"]
+  http_status: 404
+  body_contains: ["No such app", "herokucdn.com/error-pages/no-such-app.html"]
+  takeover_possible: true
+
+- service: Azure
+  cname_patterns: ["azurewebsites.net", "cloudapp.net", "azureedge.net"]
+  http_status: 404
+  body_contains: ["404 Web Site not found"]
+  takeover_possible: true
+
+- service: Help Scout
+  cname_patterns: ["helpscoutdocs.com"]
+  http_status: 404
+  body_contains: ["No settings found for this domain"]
+  takeover_possible: true
